@@ -1,13 +1,15 @@
 function Result(){
-    return (<div>
-        Hey here comes your result!!
-        <table>
-            <thead><tr><td>result</td></tr></thead>
-            <tbody><tr><td>res1</td>
-            <td>res2</td></tr>
-            </tbody>
-        </table>
-    </div>);
+    return (
+        <>
+    <h1>Choices</h1>
+    <ul className="list-group">
+    <li className="list-group-item">An item</li>
+    <li className="list-group-item">A second item</li>
+    <li className="list-group-item">A third item</li>
+    <li className="list-group-item">A fourth item</li>
+    <li className="list-group-item">And a fifth one</li>
+  </ul>
+  </>);
 
 }
 export default Result
