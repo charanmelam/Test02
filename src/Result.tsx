@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import { color } from "html2canvas/dist/types/css/types/color";
 
 const formSteps = [
     {
@@ -61,7 +60,7 @@ function Result() {
         <div className="container mt-5">
             {/* Step Indicators */}
             <div className="d-flex justify-content-between mb-3">
-                {formSteps.map((step, index) => (
+                {formSteps.map((_step, index) => (
                     <div
                         key={index}
                         className={`step rounded-circle d-flex align-items-center justify-content-center ${currentStep === index ? "bg-primary text-white" : "bg-secondary text-light"
