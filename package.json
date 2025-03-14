@@ -10,12 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf-viewer/default-layout": "^3.12.0",
+    "@react-pdf/renderer": "^4.3.0",
     "bootstrap": "^5.3.3",
+    "pdfmake": "^0.2.18",
+    "pdfmake-unicode": "^0.0.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-html2pdf": "^1.0.1",
+    "react-icons": "^5.5.0",
+    "react-pdf": "^9.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/pdfmake": "^0.2.11",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
