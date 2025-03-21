@@ -12,8 +12,9 @@ const PdfGenerator: React.FC = () => {
         email: "",
         phone: "",
         socials: [{ label: "", url: "" }],
-        education: "",
-        cgpa: "",
+        education: [
+            { college: "", cgpa: "", duration: "" }, // Default first entry
+        ],
         skills: "",
         projects: "",
         experience: "",
@@ -33,6 +34,28 @@ const PdfGenerator: React.FC = () => {
             setFormData({ ...formData, [name]: value });
         }
     };
+    const handleEducationChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        const updatedEducation = [...formData.education];
+    
+        // Explicitly tell TypeScript that `name` is one of the education object keys
+        updatedEducation[index][name as keyof typeof updatedEducation[number]] = value;
+    
+        setFormData({ ...formData, education: updatedEducation });
+    };
+    
+    const addEducation = () => {
+        setFormData({
+            ...formData,
+            education: [...formData.education, { college: "", cgpa: "", duration: "" }],
+        });
+    };
+    
+    const removeEducation = (index: number) => {
+        const updatedEducation = formData.education.filter((_, i) => i !== index);
+        setFormData({ ...formData, education: updatedEducation });
+    };
+    
     const addSocial = () => {
         setFormData({ ...formData, socials: [...formData.socials, { label: "", url: "" }] });
     };
@@ -72,12 +95,15 @@ const PdfGenerator: React.FC = () => {
                 },
     
                 { text: "Education", style: "sectionHeader" },
-                {
-                    columns: [
-                        { text: `🎓 ${formData.education}`, bold: true },
-                        { text: `CGPA: ${formData.cgpa}`, alignment: "right" },
-                    ],
-                },
+                ...formData.education.map((edu) => [
+                    {
+                        columns: [
+                            { text: `🎓 ${edu.college}`, bold: true },
+                            { text: `${edu.duration}`, alignment: "right", italics: true },
+                        ],
+                    },
+                    { text: `CGPA: ${edu.cgpa}`, margin: [0, 2, 0, 5] },
+                ]),
                 { text: "Technical Skills", style: "sectionHeader" },
                 { text: formData.skills, margin: [0, 2, 0, 5] },
                 { text: "Projects", style: "sectionHeader" },
@@ -135,10 +161,52 @@ const PdfGenerator: React.FC = () => {
 
                 {step === 2 && (
                     <>
-                        <h4 className="text-center">Education</h4>
-                        <input type="text" name="education" placeholder="Education" value={formData.education} onChange={handleChange} className="form-control mb-3" required />
-                        <input type="text" name="cgpa" placeholder="CGPA" value={formData.cgpa} onChange={handleChange} className="form-control mb-3" required />
-                    </>
+                    <h4 className="text-center">Education</h4>
+                    {formData.education.map((edu, index) => (
+                        <div key={index} className="mb-3 border p-3 rounded position-relative">
+                            <input
+                                type="text"
+                                name="college"
+                                placeholder="College Name"
+                                value={edu.college}
+                                onChange={(e) => handleEducationChange(index, e)}
+                                className="form-control mb-2"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="cgpa"
+                                placeholder="CGPA"
+                                value={edu.cgpa}
+                                onChange={(e) => handleEducationChange(index, e)}
+                                className="form-control mb-2"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="duration"
+                                placeholder="Duration (e.g., 2019 - 2023)"
+                                value={edu.duration}
+                                onChange={(e) => handleEducationChange(index, e)}
+                                className="form-control mb-2"
+                                required
+                            />
+                            <div className="d-flex">
+                                {index > 0 && (
+                                    <button type="button" className="btn btn-danger me-2" onClick={() => removeEducation(index)}>
+                                       <FaMinus />
+                                    </button>
+                                )}
+                                {index === formData.education.length - 1 && (
+                                    <button type="button" className="btn btn-success" onClick={addEducation}>
+                                       <FaPlus />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </>
+                
                 )}
 
                 {step === 3 && (
